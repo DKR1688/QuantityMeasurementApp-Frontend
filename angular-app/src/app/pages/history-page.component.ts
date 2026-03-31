@@ -24,7 +24,7 @@ export class HistoryPageComponent {
   private readonly authService = inject(AuthService);
   private readonly quantityApi = inject(QuantityApiService);
 
-  readonly darkMode = signal(localStorage.getItem(THEME_STORAGE_KEY) === 'dark');
+  readonly darkMode = signal(localStorage.getItem(THEME_STORAGE_KEY) !== 'light');
   readonly user = this.authService.user;
   readonly operationOptions = historyOperationOptions;
   readonly typeOptions = Object.keys(measurementCatalog) as MeasurementType[];

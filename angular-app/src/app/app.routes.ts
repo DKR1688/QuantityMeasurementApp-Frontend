@@ -1,5 +1,4 @@
 import { Routes } from '@angular/router';
-import { adminGuard } from './guards/admin.guard';
 import { authGuard } from './guards/auth.guard';
 import { guestGuard } from './guards/guest.guard';
 import { AuthPageComponent } from './pages/auth-page.component';
@@ -23,7 +22,7 @@ export const routes: Routes = [
     path: 'history',
     component: HistoryPageComponent,
     title: 'Measurement History - Quantity Measurement',
-    canActivate: [adminGuard]
+    canActivate: [authGuard]
   },
   { path: '**', redirectTo: '' }
 ];

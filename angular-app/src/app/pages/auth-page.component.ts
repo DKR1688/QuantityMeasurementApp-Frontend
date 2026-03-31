@@ -19,7 +19,7 @@ export class AuthPageComponent implements OnInit {
   private readonly router = inject(Router);
 
   readonly authMode = signal<AuthMode>('login');
-  readonly darkMode = signal(localStorage.getItem(THEME_STORAGE_KEY) === 'dark');
+  readonly darkMode = signal(localStorage.getItem(THEME_STORAGE_KEY) !== 'light');
   readonly pageTitle = computed(() =>
     this.authMode() === 'login' ? 'Sign in to continue' : 'Create your account'
   );

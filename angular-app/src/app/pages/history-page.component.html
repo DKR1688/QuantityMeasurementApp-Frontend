@@ -1,13 +1,12 @@
-<div class="qm-app-shell" [class.theme-dark]="darkMode()">
+<div class="qm-app-shell" [class.theme-dark]="!darkMode()">
   <header class="dashboard-header">
     <div class="dashboard-header__inner">
       <div>
         <h1>Measurement History</h1>
-        <p class="dashboard-subtitle">Admin-only access to saved backend operations</p>
+        <p class="dashboard-subtitle">Saved backend operations for all signed-in users</p>
       </div>
       <div class="dashboard-header__actions">
         <button class="theme-toggle theme-toggle--compact" type="button" (click)="toggleTheme()">
-          <span class="theme-toggle__icon">{{ darkMode() ? '☀' : '☾' }}</span>
           <span class="theme-toggle__text">{{ darkMode() ? 'Light Mode' : 'Dark Mode' }}</span>
         </button>
         <span class="user-pill">{{ user()?.email }}</span>
@@ -19,6 +18,11 @@
 
   <main class="dashboard-main">
     <section class="workspace-card">
+      <div class="workspace-head">
+        <h2>Backend Operation History</h2>
+        <p>Filter by operation and type to audit conversions, comparisons, and calculations.</p>
+      </div>
+
       <div class="history-toolbar">
         <label class="field">
           <span>Filter By Operation</span>

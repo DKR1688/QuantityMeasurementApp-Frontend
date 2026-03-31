@@ -1,5 +1,5 @@
 export type MeasurementType = 'LENGTHUNIT' | 'WEIGHTUNIT' | 'VOLUMEUNIT' | 'TEMPERATUREUNIT';
-export type CalculatorOperation = 'convert' | 'compare' | 'add' | 'subtract' | 'divide';
+export type CalculatorOperation = 'convert' | 'compare' | 'add' | 'subtract' | 'multiply' | 'divide';
 export type SupportedRole = 'ROLE_USER' | 'ROLE_ADMIN';
 
 export type QuantityPayload = {
@@ -34,60 +34,95 @@ export type AuthUser = {
   expiresAt: number;
 };
 
+export type UnitOption = {
+  label: string;
+  value: string;
+};
+
 export type MeasurementDefinition = {
   label: string;
+  shortLabel: string;
+  image: string;
   iconColor: string;
-  units: string[];
+  accent: string;
+  units: UnitOption[];
   supportsArithmetic: boolean;
 };
 
 export const measurementCatalog: Record<MeasurementType, MeasurementDefinition> = {
   LENGTHUNIT: {
     label: 'Length',
+    shortLabel: 'L',
+    image: 'assets/type-length.svg',
     iconColor: '#f6b21a',
-    units: ['INCHES', 'FEET', 'YARDS', 'CENTIMETERS'],
+    accent: '#ff9f43',
+    units: [
+      { label: 'Millimetre', value: 'MILLIMETRE' },
+      { label: 'Centimetre', value: 'CENTIMETERS' },
+      { label: 'Inch', value: 'INCHES' },
+      { label: 'Feet', value: 'FEET' },
+      { label: 'Yard', value: 'YARDS' }
+    ],
     supportsArithmetic: true
   },
   WEIGHTUNIT: {
     label: 'Weight',
+    shortLabel: 'W',
+    image: 'assets/type-weight.svg',
     iconColor: '#f6b21a',
-    units: ['MILLIGRAM', 'GRAM', 'KILOGRAM', 'POUND', 'TONNE'],
+    accent: '#fd5d5d',
+    units: [
+      { label: 'Milligram', value: 'MILLIGRAM' },
+      { label: 'Gram', value: 'GRAM' },
+      { label: 'Kilogram', value: 'KILOGRAM' },
+      { label: 'Ounce', value: 'OUNCE' },
+      { label: 'Pound', value: 'POUND' },
+      { label: 'Tonne', value: 'TONNE' }
+    ],
     supportsArithmetic: true
   },
   VOLUMEUNIT: {
     label: 'Volume',
+    shortLabel: 'V',
+    image: 'assets/type-volume.svg',
     iconColor: '#67d1d4',
-    units: ['LITRE', 'MILLILITRE', 'GALLON'],
+    accent: '#3ab8a3',
+    units: [
+      { label: 'Millilitre', value: 'MILLILITRE' },
+      { label: 'Litre', value: 'LITRE' },
+      { label: 'Gallon', value: 'GALLON' },
+      { label: 'Cubic metre', value: 'CUBIC_METRE' }
+    ],
     supportsArithmetic: true
   },
   TEMPERATUREUNIT: {
     label: 'Temperature',
+    shortLabel: 'T',
+    image: 'assets/type-temperature.svg',
     iconColor: '#ff5a1f',
-    units: ['CELSIUS', 'FAHRENHEIT', 'KELVIN'],
+    accent: '#4f7cff',
+    units: [
+      { label: 'Celsius', value: 'CELSIUS' },
+      { label: 'Fahrenheit', value: 'FAHRENHEIT' },
+      { label: 'Kelvin', value: 'KELVIN' }
+    ],
     supportsArithmetic: false
   }
 };
 
-export const calculatorOperations: Array<{
-  value: CalculatorOperation;
-  label: string;
-}> = [
-  { value: 'convert', label: 'Convert' },
-  { value: 'compare', label: 'Compare' },
-  { value: 'add', label: 'Add' },
-  { value: 'subtract', label: 'Subtract' },
-  { value: 'divide', label: 'Divide' }
-];
+export const historyOperationOptions = ['CONVERT', 'COMPARE', 'ADD', 'SUBTRACT', 'MULTIPLY', 'DIVIDE'];
 
-export const historyOperationOptions = ['CONVERT', 'COMPARE', 'ADD', 'SUBTRACT', 'DIVIDE'];
-
-export function unitNames(type: MeasurementType): string[] {
+export function unitOptions(type: MeasurementType): UnitOption[] {
   return measurementCatalog[type].units;
 }
 
 export function formatMeasurementType(type: MeasurementType | string | null | undefined): string {
   if (!type) return 'Unknown';
   return measurementCatalog[type as MeasurementType]?.label ?? type;
+}
+
+export function formatUnit(type: MeasurementType, value: string): string {
+  return measurementCatalog[type].units.find((unit) => unit.value === value)?.label ?? value;
 }
 
 export function formatTimestamp(value: string | null | undefined): string {

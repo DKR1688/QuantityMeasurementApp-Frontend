@@ -1,7 +1,6 @@
-<div class="qm-app-shell" [class.theme-dark]="darkMode()">
+<div class="qm-app-shell" [class.theme-dark]="!darkMode()">
   <header class="top-actions">
     <button class="theme-toggle" type="button" (click)="toggleTheme()">
-      <span class="theme-toggle__icon">{{ darkMode() ? '☀' : '☾' }}</span>
       <span class="theme-toggle__text">{{ darkMode() ? 'Light Mode' : 'Dark Mode' }}</span>
     </button>
   </header>
@@ -12,11 +11,16 @@
         <div class="brand-mark">
           <img src="assets/logo-mark.svg" alt="Quantity Measurement logo">
         </div>
-        <h1>Quantity<br>Measurement App</h1>
+        <h1>Quantity<br>Measurement<br>App</h1>
         <p class="brand-copy">
-          Connect the Angular frontend to your Spring Boot API for authentication, calculator
-          operations, and admin history tracking.
+          Measure, compare, convert, and calculate quantities with a cleaner workflow built for quick decisions.
         </p>
+        <div class="brand-feature-grid">
+          <div class="brand-feature"><span>L</span>Length</div>
+          <div class="brand-feature"><span>W</span>Weight</div>
+          <div class="brand-feature"><span>V</span>Volume</div>
+          <div class="brand-feature"><span>T</span>Temperature</div>
+        </div>
       </div>
     </section>
 
@@ -38,12 +42,9 @@
           [attr.aria-selected]="authMode() === 'signup'"
           (click)="setMode('signup')"
         >
-          Register
+          Signup
         </button>
       </div>
-
-      <h2 class="auth-heading">{{ pageTitle() }}</h2>
-      <p class="auth-copy">Use your backend credentials. OAuth login will redirect here and store the JWT automatically.</p>
 
       @if (oauthFeedback) {
         <p class="auth-feedback auth-feedback--block">{{ oauthFeedback }}</p>
@@ -52,7 +53,7 @@
       @if (authMode() === 'login') {
         <form class="auth-form is-active" (ngSubmit)="submitLogin()">
           <label class="field">
-            <span>Email</span>
+            <span>Email Id</span>
             <input type="email" name="loginEmail" [(ngModel)]="loginEmail" placeholder="Enter email" required>
           </label>
           <label class="field field--password">
@@ -65,7 +66,7 @@
               required
             >
             <button class="password-toggle" type="button" (click)="showLoginPassword = !showLoginPassword">
-              {{ showLoginPassword ? '●' : '◌' }}
+              {{ showLoginPassword ? 'Hide' : 'Show' }}
             </button>
           </label>
           <p class="auth-feedback">{{ loginFeedback }}</p>
@@ -81,7 +82,7 @@
       } @else {
         <form class="auth-form is-active" (ngSubmit)="submitSignup()">
           <label class="field">
-            <span>Email</span>
+            <span>Email Id</span>
             <input type="email" name="signupEmail" [(ngModel)]="signupEmail" placeholder="Enter email" required>
           </label>
           <label class="field field--password">
@@ -94,12 +95,12 @@
               required
             >
             <button class="password-toggle" type="button" (click)="showSignupPassword = !showSignupPassword">
-              {{ showSignupPassword ? '●' : '◌' }}
+              {{ showSignupPassword ? 'Hide' : 'Show' }}
             </button>
           </label>
           <p class="auth-feedback">{{ signupFeedback }}</p>
           <button class="primary-button" type="submit" [disabled]="submitting">
-            {{ submitting ? 'Creating Account...' : 'Register' }}
+            {{ submitting ? 'Creating Account...' : 'Signup' }}
           </button>
           <div class="divider"><span>OR</span></div>
           <button class="social-button" type="button" (click)="continueWithGoogle()" [disabled]="submitting">
@@ -111,3 +112,4 @@
     </section>
   </main>
 </div>
+
