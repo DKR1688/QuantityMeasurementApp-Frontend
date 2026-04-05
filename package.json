@@ -5,6 +5,8 @@
     "ng": "ng",
     "start": "ng serve",
     "build": "ng build",
+    "set:env": "node scripts/write-env.cjs",
+    "build:aws": "node scripts/write-env.cjs && ng build --configuration production",
     "watch": "ng build --watch --configuration development",
     "test": "ng test"
   },
