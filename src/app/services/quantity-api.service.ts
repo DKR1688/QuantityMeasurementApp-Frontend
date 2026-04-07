@@ -98,12 +98,14 @@ export class QuantityApiService {
         );
     }
 
-    deleteAll(operation?: string, type?: string) {
-        return this.http.delete(`${API_BASE_URL}/api/v1/measurements`, {
-            params: {
-                operation: operation || '',
-                measurementType: type || ''
-            }
-        });
+    deleteAll(operation?: string, type?: string): Promise<any> {
+        return firstValueFrom(
+            this.http.delete(`${API_BASE_URL}/api/v1/measurements`, {
+                params: {
+                    operation: operation || '',
+                    measurementType: type || ''
+                }
+            })
+        );
     }
 }

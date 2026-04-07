@@ -91,9 +91,12 @@ export class HistoryPageComponent {
     async deleteAll() {
         if (!confirm('Are you sure you want to delete filtered history?')) return;
 
-        await this.quantityApi.deleteAll(this.selectedOperation, this.selectedType).toPromise();
-
-        await this.loadMeasurements();
+        try {
+            await this.quantityApi.deleteAll(this.selectedOperation, this.selectedType);
+            await this.loadMeasurements();
+        } catch (error) {
+            this.errorMessage = getApiErrorMessage(error, 'Failed to delete filtered history.');
+        }
     }
 
     formatType(type: string | null): string {
