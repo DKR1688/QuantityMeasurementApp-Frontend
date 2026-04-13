@@ -1,0 +1,18 @@
+services:
+  frontend:
+    build:
+      context: ../..
+      dockerfile: Dockerfile
+    image: ${QMA_FRONTEND_IMAGE:-qma-frontend}
+    container_name: qma-frontend
+    restart: unless-stopped
+    environment:
+      API_BASE_URL: ${API_BASE_URL}
+    ports:
+      - "${FRONTEND_PORT:-80}:80"
+    networks:
+      - qma-frontend
+
+networks:
+  qma-frontend:
+    driver: bridge
