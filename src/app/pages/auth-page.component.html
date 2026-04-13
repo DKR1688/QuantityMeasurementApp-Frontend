@@ -54,8 +54,19 @@
         <form class="auth-form is-active" (ngSubmit)="submitLogin()">
           <label class="field">
             <span>Email Id</span>
-            <input type="email" name="loginEmail" [(ngModel)]="loginEmail" placeholder="Enter email" required>
+            <input
+              type="email"
+              name="loginEmail"
+              [(ngModel)]="loginEmail"
+              #loginEmailModel="ngModel"
+              placeholder="Enter email"
+              required
+              email
+            >
           </label>
+          @if (loginEmailModel.invalid && (loginEmailModel.dirty || loginEmailModel.touched)) {
+            <p class="auth-feedback auth-feedback--block">Please enter a valid email address.</p>
+          }
           <label class="field field--password">
             <span>Password</span>
             <input
@@ -83,8 +94,19 @@
         <form class="auth-form is-active" (ngSubmit)="submitSignup()">
           <label class="field">
             <span>Email Id</span>
-            <input type="email" name="signupEmail" [(ngModel)]="signupEmail" placeholder="Enter email" required>
+            <input
+              type="email"
+              name="signupEmail"
+              [(ngModel)]="signupEmail"
+              #signupEmailModel="ngModel"
+              placeholder="Enter email"
+              required
+              email
+            >
           </label>
+          @if (signupEmailModel.invalid && (signupEmailModel.dirty || signupEmailModel.touched)) {
+            <p class="auth-feedback auth-feedback--block">Please enter a valid email address.</p>
+          }
           <label class="field field--password">
             <span>Password</span>
             <input
@@ -112,4 +134,3 @@
     </section>
   </main>
 </div>
-

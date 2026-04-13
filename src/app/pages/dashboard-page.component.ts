@@ -86,7 +86,7 @@ export class DashboardPageComponent {
 
   setAction(action: DashboardAction): void {
     if (!measurementCatalog[this.selectedType()].supportsArithmetic && action === 'calculate') {
-      this.formError = 'Temperature supports comparison and conversion only.';
+      this.formError = `${measurementCatalog[this.selectedType()].label} does not support arithmetic operations.`;
       return;
     }
 

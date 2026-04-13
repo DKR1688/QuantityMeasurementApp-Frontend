@@ -106,7 +106,7 @@ export const measurementCatalog: Record<MeasurementType, MeasurementDefinition> 
       { label: 'Fahrenheit', value: 'FAHRENHEIT' },
       { label: 'Kelvin', value: 'KELVIN' }
     ],
-    supportsArithmetic: false
+    supportsArithmetic: true
   }
 };
 

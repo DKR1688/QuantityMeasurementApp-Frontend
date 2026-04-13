@@ -14,6 +14,8 @@ type AuthMode = 'login' | 'signup';
   templateUrl: './auth-page.component.html'
 })
 export class AuthPageComponent implements OnInit {
+  private static readonly EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
   private readonly authService = inject(AuthService);
   private readonly route = inject(ActivatedRoute);
   private readonly router = inject(Router);
@@ -64,10 +66,17 @@ export class AuthPageComponent implements OnInit {
 
   async submitLogin(): Promise<void> {
     this.clearFeedback();
+    const email = this.loginEmail.trim();
+
+    if (!this.isValidEmail(email)) {
+      this.loginFeedback = 'Please enter a valid email address.';
+      return;
+    }
+
     this.submitting = true;
 
     try {
-      await this.authService.login(this.loginEmail.trim(), this.loginPassword);
+      await this.authService.login(email, this.loginPassword);
       await this.router.navigate(['/dashboard']);
     } catch (error) {
       this.loginFeedback = getApiErrorMessage(error, 'Login failed.');
@@ -78,10 +87,16 @@ export class AuthPageComponent implements OnInit {
 
   async submitSignup(): Promise<void> {
     this.clearFeedback();
+    const email = this.signupEmail.trim();
+
+    if (!this.isValidEmail(email)) {
+      this.signupFeedback = 'Please enter a valid email address.';
+      return;
+    }
+
     this.submitting = true;
 
     try {
-      const email = this.signupEmail.trim();
       await this.authService.register(email, this.signupPassword);
       await this.authService.login(email, this.signupPassword);
       await this.router.navigate(['/dashboard']);
@@ -101,5 +116,9 @@ export class AuthPageComponent implements OnInit {
     this.loginFeedback = '';
     this.signupFeedback = '';
     this.oauthFeedback = '';
+  }
+
+  private isValidEmail(email: string): boolean {
+    return AuthPageComponent.EMAIL_PATTERN.test(email);
   }
 }

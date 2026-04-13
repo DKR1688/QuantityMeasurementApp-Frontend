@@ -1,7 +1,7 @@
 services:
   frontend:
     build:
-      context: ../..
+      context: .
       dockerfile: Dockerfile
     image: ${QMA_FRONTEND_IMAGE:-qma-frontend}
     container_name: qma-frontend
