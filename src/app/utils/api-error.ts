@@ -7,7 +7,17 @@ export function getApiErrorMessage(error: unknown, fallback = 'Something went wr
     message?: string;
   };
 
-  if (typeof response.error === 'string') return response.error;
+  if (typeof response.error === 'string') {
+    const rawError = response.error.trim();
+
+    if (rawError.startsWith('<!DOCTYPE html') || rawError.startsWith('<html')) {
+      return response.status && response.status >= 500
+        ? 'The backend is temporarily unavailable or waking up. Please wait a moment and try again.'
+        : fallback;
+    }
+
+    return rawError;
+  }
 
   if (response.error && typeof response.error === 'object') {
     const apiError = response.error as {
@@ -24,7 +34,11 @@ export function getApiErrorMessage(error: unknown, fallback = 'Something went wr
   if (typeof response.message === 'string') return response.message;
 
   if (response.status === 0) {
-    return 'Cannot reach the backend. Make sure the Spring Boot server is running on http://localhost:8080.';
+    return 'Cannot reach the backend right now. If you are using Render free tier, the service may still be waking up.';
+  }
+
+  if (response.status && response.status >= 500) {
+    return 'The backend is temporarily unavailable or waking up. Please wait a moment and try again.';
   }
 
   return fallback;
